@@ -1,6 +1,8 @@
 package com.artiomtb.hibernate.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table(name = "vehicles_hibernate")
@@ -14,6 +16,9 @@ public class Vehicle {
 
     @Column(name = "vehicle_name")
     private String vehicleName;
+
+    @ManyToMany(mappedBy = "vehicles")
+    private Collection<UserDetails> users = new ArrayList<>();
 
     public int getVehicleID() {
         return vehicleID;
@@ -29,5 +34,13 @@ public class Vehicle {
 
     public void setVehicleName(String vehicleName) {
         this.vehicleName = vehicleName;
+    }
+
+    public Collection<UserDetails> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection<UserDetails> users) {
+        this.users = users;
     }
 }

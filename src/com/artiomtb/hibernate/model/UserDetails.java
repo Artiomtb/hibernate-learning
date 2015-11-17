@@ -21,9 +21,19 @@ public class UserDetails {
     @Column(name = "user_name")
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "vehicle_id")
-    private Vehicle vehicle;
+    //    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "vehicle_id")
+//    private Vehicle vehicle;
+//    @OneToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "user_vehicle",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "vehicle_id")
+//    )
+    @ManyToMany
+    @JoinTable(name = "users_vehicles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "vehicle_id"))
+    Collection<Vehicle> vehicles = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "addresses_hibernate", joinColumns = @JoinColumn(name = "user_id"))
@@ -78,11 +88,21 @@ public class UserDetails {
         this.setOfAddress = setOfAddress;
     }
 
-    public Vehicle getVehicle() {
-        return vehicle;
+    public Collection<Vehicle> getVehicles() {
+        return vehicles;
     }
 
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    public void setVehicles(Collection<Vehicle> vehicles) {
+        this.vehicles = vehicles;
     }
+
+    //    public Vehicle getVehicle() {
+//        return vehicle;
+//    }
+//
+//    public void setVehicle(Vehicle vehicle) {
+//        this.vehicle = vehicle;
+//    }
+
+
 }
